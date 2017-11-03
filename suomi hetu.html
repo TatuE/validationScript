@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Suomi HETU</title>
+<style>
+
+</style>
+</head>
+<body>
+	<label>Syötä henkilötunnuksesti</label>
+	<input type="text" id="hetu">
+	<input type="button" value="Varmenna" onclick="varmenna()"><br><br>
+	<div id="valid"></div>
+	<div id="sa"></div>
+	<div id="sp"></div>
+	<div id="syntyma"></div>
+		
+<script>
+	function varmenna() {
+		var hetu = document.getElementById("hetu").value;
+		hetu = hetu.trim();
+		var vuosisata = hetu.charAt(6)
+		hetu = hetu.split(hetu.charAt(6));
+		var ika = hetu[0];
+		var pp = ika.substr(0,2);
+		var kk = ika.substr(2,2);
+		var vv = ika.substr(4,2);
+		var vuosi;
+		if (vuosisata == "+") {
+			vuosi = "18"+vv;		
+		}else if (vuosisata == "-") {
+			vuosi = "19"+vv;		
+		}else {
+			vuosi = "20"+vv;		
+		}
+		var pvm = new Date();
+		var vv2 = pvm.getFullYear();
+		var kk2 = pvm.getMonth()+1;
+		var pp2 = pvm.getDate();
+		
+		var syntymatarkiste1 = vv2 + "-" + kk2 +"-"+ pp2;
+		var syntyma1 = vuosi +"-"+ kk +"-"+ pp;
+		
+		syntymatarkiste1=Date.parse(syntymatarkiste1);
+		syntyma1=Date.parse(syntyma1);
+		
+		if (syntyma1 > syntymatarkiste1) {
+			document.getElementById("syntyma").innerHTML="HETU ei validi, et ole vielä syntynyt!";
+			document.getElementById("valid").innerHTML="";
+			document.getElementById("sa").innerHTML="";
+			document.getElementById("sp").innerHTML="";		
+		} else {
+			jatka();		
+		}
+	}	
+	function jatka() {
+		var hetu = document.getElementById("hetu").value;
+		hetu = hetu.trim();
+		hetu = hetu.split(hetu.charAt(6));
+		var tarkiste = hetu[1].charAt(3);
+		var sukupuoli = hetu[1].substr(0,3);
+		var ika = hetu[0];
+		var tuomio;
+		var varmennekn;
+		var tarkiste1 = [
+		{tarkistekirjain : "A",tarkistenumero : 10},
+		{tarkistekirjain : "B",tarkistenumero : 11},
+		{tarkistekirjain : "C",tarkistenumero : 12},
+		{tarkistekirjain : "D",tarkistenumero : 13},
+		{tarkistekirjain : "E",tarkistenumero : 14},
+		{tarkistekirjain : "F",tarkistenumero : 15},
+		{tarkistekirjain : "H",tarkistenumero : 16},
+		{tarkistekirjain : "J",tarkistenumero : 17},
+		{tarkistekirjain : "K",tarkistenumero : 18},
+		{tarkistekirjain : "L",tarkistenumero : 19},
+		{tarkistekirjain : "M",tarkistenumero : 20},
+		{tarkistekirjain : "N",tarkistenumero : 21},
+		{tarkistekirjain : "P",tarkistenumero : 22},
+		{tarkistekirjain : "R",tarkistenumero : 23},
+		{tarkistekirjain : "S",tarkistenumero : 24},
+		{tarkistekirjain : "T",tarkistenumero : 25},
+		{tarkistekirjain : "U",tarkistenumero : 26},
+		{tarkistekirjain : "V",tarkistenumero : 27},
+		{tarkistekirjain : "W",tarkistenumero : 28},
+		{tarkistekirjain : "X",tarkistenumero : 29},
+		{tarkistekirjain : "Y",tarkistenumero : 30},
+		];
+		varmenne = ika.concat(sukupuoli);
+		varmennenro = varmenne % 31;
+		for (i=0; i<tarkiste1.length; i++) {
+			if (tarkiste1[i].tarkistenumero == varmennenro ){
+				varmennekn = tarkiste1[i].tarkistekirjain;					
+				}
+			}
+		if (varmennenro == tarkiste) {
+			tuomio = "HETU on validi, tarkiste on " + varmennenro; jatka2()	
+		}else if ( varmennekn == tarkiste) {
+			tuomio = "HETU on validi, tarkiste on " + varmennekn; jatka2()	
+		}else {
+			tuomio = "HETU ei ole validi!";
+			document.getElementById("syntyma").innerHTML="";
+			document.getElementById("sp").innerHTML="";
+			document.getElementById("sa").innerHTML="";
+		}	
+				
+		document.getElementById("valid").innerHTML=tuomio;
+	}
+	function jatka2() {
+		var hetu = document.getElementById("hetu").value;
+		hetu = hetu.trim();
+		var vuosisata = hetu.charAt(6)
+		hetu = hetu.split(hetu.charAt(6));
+		var tarkiste = hetu[1].charAt(3);
+		var sukupuoli = hetu[1].substr(0,3);
+		var ika = hetu[0];
+		var pp = ika.substr(0,2);
+		var kk = ika.substr(2,2);
+		var vv = ika.substr(4,2);
+		var vuosi;
+		if (vuosisata == "+") {
+			vuosi = "18"+vv;		
+		}else if (vuosisata == "-") {
+			vuosi = "19"+vv;		
+		}else {
+			vuosi = "20"+vv;		
+		}
+		document.getElementById("sa").innerHTML="Olet syntynyt " + pp + "." + kk + "." + vuosi; 
+		
+		var sukupuoli1 ="";
+		var sex = sukupuoli % 2;
+		if (sex == 0) {
+			sukupuoli1 = "Sukupuolesi on nainen";		
+		}else { 
+			sukupuoli1 = "Sukupuolesassi on mies";
+		}
+		document.getElementById("sp").innerHTML=sukupuoli1;
+		document.getElementById("syntyma").innerHTML="";
+	}
+</script>
+</body>
+</html>
+
+
+
+
