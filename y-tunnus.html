@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Y-tunnus</title>
+<style>
+
+</style>
+</head>
+<body>
+	<label>Syötä Y-tunnus: </label>
+	<input type="text" id="yt">
+	<input type="button" value="Varmenna" onclick="varmenna()"><br><br>	
+	<div id="vastaus"></div>
+<script>
+	function varmenna() {
+		var yt = document.getElementById("yt").value;
+		yt = yt.trim();	
+		yt = yt.split("-");
+		var varmenne = yt[1];
+		var luku = yt[0];
+		if (luku.length !=7 ){
+			document.getElementById("vastaus").innerHTML="Y-tunnus virheellinen, kokeile uudestaan";		
+		}else if (varmenne.length != 1) {
+			document.getElementById("vastaus").innerHTML="Y-tunnus virheellinen, kokeile uudestaan";		
+		}else {
+			laske();		
+		} 		
+	
+		}
+	function laske() {
+		var yt = document.getElementById("yt").value;
+		yt = yt.trim();	
+		yt = yt.split("-");
+		var varmenne = yt[1];
+		var luku = yt[0];
+		var kerroin = [7, 9, 10, 5, 8, 4, 2];
+		var tarkiste = [];
+		var tarkiste01 = 0;
+		var vertausnro;
+			for (i=0; i<luku.length; i++) {
+				tarkiste.push(luku[i]*kerroin[i]);	
+			}
+			for (i=0; i<tarkiste.length; i++){
+				tarkiste01 += tarkiste[i]; 
+			}
+		vertausnro = tarkiste01 % 11;
+			if (vertausnro == varmenne) {
+				teksti = "Y-tunnus on validi, tarkisteluku on " + varmenne;				
+			} else if (11-vertausnro == varmenne) {
+				teksti = "Y-tunnus on validi, tarkisteluku on " + varmenne;			
+			}else {
+				teksti = "Y-tunnus ei ole validi, tarkisteluku ei täsmää "				
+			}	
+			document.getElementById("vastaus").innerHTML=teksti;	
+		}
+</script>
+</body>
+</html>
+
+
+
